@@ -1,42 +1,43 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
-<form method="POST">
-  <h3 align="center"><u>Home</u></h3>
+  %}
+  <form method="POST">
+    <h3 align="center"><u>Add New Computer</u></h3>
+    
+    <div class="form-group">
+      <label for="email">Enter Computer Name</label>
+      <input
+      type="name"
+      class="form-control"
+      id="name"
+      name="name"
+      placeholder="Enter Computer Name"
+      />
+    </div>
   
-  <div class="form-group">
-    <label for="email">Enter Computer Name</label>
-    <input
-    type="name"
-    class="form-control"
-    id="name"
-    name="name"
-    placeholder="Enter Computer Name"
-    />
-  </div>
-
-  <div class="form-group">
-    <label for="email">Enter Computer Serial Number</label>
-    <input
-    type="serial"
-    class="form-control"
-    id="serial"
-    name="serial"
-    placeholder="Enter Computer Serial Number"
-    />
-  </div>
+    <div class="form-group">
+      <label for="email">Enter Computer Serial Number</label>
+      <input
+      type="serial"
+      class="form-control"
+      id="serial"
+      name="serial"
+      placeholder="Enter Computer Serial Number"
+      />
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Enter Computer Location</label>
+      <input
+      type="location"
+      class="form-control"
+      id="location"
+      name="location"
+      placeholder="Enter Computer Location"
+      />
+    </div>
   
-  <div class="form-group">
-    <label for="email">Enter Computer Location</label>
-    <input
-    type="location"
-    class="form-control"
-    id="location"
-    name="location"
-    placeholder="Enter Computer Location"
-    />
-  </div>
-
-  <br />
-  <button type="submit" class="btn btn-primary"> Submit </button>
-</form>
-{% endblock %}
+    <br />
+    <button type="submit" class="btn btn-primary"> Submit </button>
+  </form>
+  {% endblock %}
+  
