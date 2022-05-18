@@ -1,0 +1,2 @@
+prevent serial # from being a string    
+    - if has to be a string, edit it to make all serial have % in front

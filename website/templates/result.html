@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Results{% endblock %}
+{% block content %}
+
+
+<br />
+<h3 align="center" ><u>Results</u></h3>
+<br />
+
+<table align="center" style ="width: 50%">
+    <tr>
+        <th > Name </th>
+        <th style ="width: 33%"> Serial Number </th>
+        <th > Location </th>
+    </tr>
+    {% for c in computers %}
+    <tr>
+        <td> {{c.name}} </th>
+        <td> {{c.serial}} </th>
+        <td> {{c.location}} </th>
+        
+        <td>
+            <a href="/delete-computer/{{c.serial}}/{{name}}">
+                <input type = "button" value = "Delete Computer">
+            </a> 
+        </td>
+        
+    </tr>
+    {%endfor%}
+        
+</table>
+
+{% endblock %}
+
+<Script>
+    function deleteMe(serial, name){
+        window.location = '/delete-computer/%{serial}/%{name}';
+    }
+</Script>
