@@ -54,14 +54,6 @@ def sign_up():
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            #new_user = User(email=email, name=name, password=generate_password_hash(
-            #    password1, method='sha256'))
-
-            #db.session.add(new_user)
-            #db.session.commit()
-            #login_user(new_user, remember=True)
-            #flash('Account created!', category='success')
-            #return redirect(url_for('auth.confirm'))
             return render_template("confirm.html", user=current_user, email = email, name = name, password = password1)
 
     return render_template("sign_up.html", user=current_user)
