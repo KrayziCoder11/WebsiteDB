@@ -1,0 +1,15 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+    %}
+    <h3 align="center"><u>Confirmation</u></h3>
+    <p>Please confirm that the data shown below is the data you entered</p>
+    <p>Email : {{email}}</p>
+    <p>Name : {{name}}</p>
+    <p>Password : {{password}}</p>
+    <a href="/confirm/true/{{email}}/{{name}}/{{password}}">
+        <input type = "button" value = "Correct">
+    </a> 
+    <a href="/confirm/false/{{email}}/{{name}}/{{password}}">
+        <input type = "button" value = "Incorrect">
+    </a> 
+    
+    {% endblock %}
