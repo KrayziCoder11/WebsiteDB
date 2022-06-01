@@ -30,11 +30,17 @@
           <td> {{c.serial}} </th>
           <td> {{c.location}} </th>
           
-          <td>
+            <td>
               <a href="/delete-computer/{{c.serial}}/{{name}}">
-                  <input type = "button" value = "Delete Computer">
+                  <input type = "button" value = "Delete">
               </a> 
           </td>
+
+          <td>
+            <a href="/edit/{{c.serial}}">
+                <input type = "button" value = "Edit">
+            </a> 
+        </td>
           
       </tr>
       {%endfor%}

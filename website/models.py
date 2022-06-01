@@ -21,3 +21,5 @@ class Admin(db.Model):
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(150))
+    is_active = db.Column(db.Boolean)
+    is_authenticated = db.Column(db.Boolean)

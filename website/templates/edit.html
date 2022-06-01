@@ -1,59 +1,39 @@
 {% extends "base.html" %}
-{% block title %}Search{% endblock %}
+{% block title %}Edit{% endblock %}
 {% block content %}
 <form method="POST">
-    <h3 align="center"><u>Search</u></h3>
-    <div class="form-group">
-    <label for="serial">Enter The Serial Number of the Computer you wish to edit</label>
+    <h3 align="center"><u>Edit</u></h3>
+    <br />
+    <label for="name">Enter The New Name For This Computer</label>
     <input
-        type="name"
-        class="form-control"
-        id="serial"
-        name="serial"
-        placeholder=""
+    type="new_name"
+    class="form-control"
+    id="new_name"
+    name="new_name"
+    placeholder=" "
     />
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
+    <label for="serial">Enter The New Serial Number For This Computer</label>
+    <input
+    type="new_serial"
+    class="form-control"
+    id="new_serial"
+    name="new_serial"
+    placeholder=" "
+    />
+
+    <label for="location">Enter The New Location For This Computer</label>
+    <input
+    type="new_location"
+    class="form-control"
+    id="new_location"
+    name="new_location"
+    placeholder=" "
+    />
+
     <br />
-    <h3 align="center" ><u>Results</u></h3>
-    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
 
-    {if visible == true}
-        <label for="name">Enter The New Name For This Computer</label>
-        <input
-        type="name"
-        class="form-control"
-        id="name"
-        name="name"
-        placeholder=" "
-        />
-        </div>
-
-        <label for="serial">Enter The New Serial Number For This Computer</label>
-        <input
-        type="serial"
-        class="form-control"
-        id="serial"
-        name="serial"
-        placeholder=" "
-        />
-        </div>
-
-        <label for="location">Enter The New Location For This Computer</label>
-        <input
-        type="location"
-        class="form-control"
-        id="location"
-        name="location"
-        placeholder=" "
-        />
-        </div>
-    {endif}
-
-
-
+    
 </form>
 
-
-  
 {% endblock %}
