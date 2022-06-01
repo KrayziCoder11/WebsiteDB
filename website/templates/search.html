@@ -2,18 +2,46 @@
 {% block title %}Search{% endblock %}
 {% block content %}
 <form method="POST">
-    <h3 align="center">Search</h3>
-    <div class="form-group">
-      <label for="email">Search By Name</label>
-      <input
-        type="name"
-        class="form-control"
-        id="name"
-        name="name"
-        placeholder="Enter Computer Name"
-      />
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-  </form>
+  <h3 align="center"><u>Search</u></h3>
+  <div class="form-group">
+    <label for="email">Search By Name</label>
+    <input
+      type="name"
+      class="form-control"
+      id="name"
+      name="name"
+      placeholder="Enter Computer Name"
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+  <br />
+  <h3 align="center" ><u>Results</u></h3>
+  <br />
+
+  <table align="center" style ="width: 50%">
+      <tr>
+          <th > Name </th>
+          <th style ="width: 33%"> Serial Number </th>
+          <th > Location </th>
+      </tr>
+      {% for c in computers %}
+      <tr>
+          <td> {{c.name}} </th>
+          <td> {{c.serial}} </th>
+          <td> {{c.location}} </th>
+          
+          <td>
+              <a href="/delete-computer/{{c.serial}}/{{name}}">
+                  <input type = "button" value = "Delete Computer">
+              </a> 
+          </td>
+          
+      </tr>
+      {%endfor%}
+          
+  </table>
+</form>
+
+
   
 {% endblock %}

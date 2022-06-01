@@ -1,2 +1,5 @@
-prevent serial # from being a string    
-    - if has to be a string, edit it to make all serial have % in front
+add 2 stage authentication
+add option to change user details (settings page)
+add option to edit computer details(edit page)
+add ability to log in as administrator
+add pop up to ensure user means to delete a specific computer - (responsive forms on w3schools)\
