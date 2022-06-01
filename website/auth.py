@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
+from sqlalchemy import true
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-
 
 auth = Blueprint('auth', __name__)
 
@@ -19,6 +19,7 @@ def login():
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
                 return redirect(url_for('views.home'))
+                
             else:
                 flash('Incorrect password, try again.', category='error')
         else:
@@ -60,12 +61,12 @@ def sign_up():
 
 @auth.route('/confirm/<check>/<email>/<name>/<password>', methods=['GET', 'POST'])
 def confirm(check, email, name, password):
-    if(check):
-        new_user = User(email=email, first_name=name, password=generate_password_hash(password, method='sha256'))
+    if(check == True):
+        new_user = User(email= email, first_name=name, password=generate_password_hash(password, method='sha256'), is_active = True, is_authenticated = True)
         db.session.add(new_user)
         db.session.commit()
         flash('Account created!', category='success')
-        return render_template("login.html", user=current_user)
+        return redirect(url_for('auth.login'))
     else:
         return render_template("sign_up.html", user=current_user)
         

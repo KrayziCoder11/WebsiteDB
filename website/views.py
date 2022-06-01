@@ -56,7 +56,6 @@ def delete_computer(serial, name):
 def search():
     if request.method == 'POST':
         name = request.form.get('name') 
-        print(name)   
                
         computers = Computer.query.filter(Computer.name.contains(name)).all()
         if computers:
@@ -64,4 +63,16 @@ def search():
                 
     return render_template("search.html", user = current_user)
 
+
+@views.route('/edit/<serial>', methods=['GET', 'POST'])
+@login_required
+def edit(serial):
+    computer = Computer.query.filter_by(serial = serial).first()
+    
+    if computer:
+
+        pass #take to edit page
+
+
+    return render_template("home.html", user = current_user)
 
