@@ -18,34 +18,54 @@
   <h3 align="center" ><u>Results</u></h3>
   <br />
 
+  {%if user.is_admin %}
   <table align="center" style ="width: 50%">
-      <tr>
-          <th > Name </th>
-          <th style ="width: 33%"> Serial Number </th>
-          <th > Location </th>
-      </tr>
-      {% for c in computers %}
-      <tr>
-          <td> {{c.name}} </th>
-          <td> {{c.serial}} </th>
-          <td> {{c.location}} </th>
-          
-            <td>
-              <a href="/delete-computer/{{c.serial}}/{{name}}">
-                  <input type = "button" value = "Delete">
-              </a> 
-          </td>
-
-          <td>
-            <a href="/edit/{{c.serial}}">
-                <input type = "button" value = "Edit">
-            </a> 
+    <tr>
+        <th > Name </th>
+        <th style ="width: 33%"> Serial Number </th>
+        <th > Location </th>
+    </tr>
+    {% for c in computers %}
+    <tr>
+      <td> {{c.name}} </th>
+      <td> {{c.serial}} </th>
+      <td> {{c.location}} </th>
+      
+        <td>
+          <a href="/delete-computer/{{c.serial}}/{{name}}">
+              <input type = "button" value = "Delete">
+          </a> 
         </td>
-          
-      </tr>
-      {%endfor%}
-          
+
+      <td>
+        <a href="/edit/{{c.serial}}">
+            <input type = "button" value = "Edit">
+        </a> 
+      </td>
+        
+    </tr>
+    {%endfor%}
   </table>
+
+  {%else%}  
+  <table align="center" style ="width: 50%">
+    <tr>
+        <th > Name </th>
+        <th style ="width: 33%"> Serial Number </th>
+        <th > Location </th>
+    </tr>
+    {% for c in computers %}
+    <tr>
+        <td> {{c.name}} </th>
+        <td> {{c.serial}} </th>
+        <td> {{c.location}} </th>
+      
+    </tr>
+    {%endfor%}
+  </table>
+  
+  {%endif%}        
+  
 </form>
 
 
