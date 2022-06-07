@@ -67,12 +67,31 @@ def search():
 @views.route('/edit/<serial>', methods=['GET', 'POST'])
 @login_required
 def edit(serial):
-    computer = Computer.query.filter_by(serial = serial).first()
-    
-    if computer:
+    if request.method == 'POST':
+        computer = Computer.query.filter_by(serial = serial).first()
+        new_name = request.form.get('new_name')    
+        new_serial = request.form.get('new_serial')    
+        new_location = request.form.get('new_location')          
+        
+        if computer:
+            if(new_location != None and new_name != None and new_location != None):
+                computer.location = new_location
+                db.session.merge(computer)
+                db.session.flush()
+                db.session.commit()
+                
+                computer.name = new_name
+                db.session.merge(computer)
+                db.session.flush()
+                db.session.commit()
+                
+                computer.serial = new_serial
+                db.session.merge(computer)
+                db.session.flush()
+                db.session.commit()
+                
+                return render_template("search.html", user = current_user)
 
-        pass #take to edit page
 
-
-    return render_template("home.html", user = current_user)
+    return render_template("edit.html", user = current_user)
 

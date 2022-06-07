@@ -1,5 +1,6 @@
 add 2 stage authentication
 add option to change user details (settings page)
 add option to edit computer details(edit page)
+only admins can delete computers
 add ability to log in as administrator
 add pop up to ensure user means to delete a specific computer - (responsive forms on w3schools)\

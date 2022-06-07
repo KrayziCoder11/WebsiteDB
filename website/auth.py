@@ -61,12 +61,21 @@ def sign_up():
 
 @auth.route('/confirm/<check>/<email>/<name>/<password>', methods=['GET', 'POST'])
 def confirm(check, email, name, password):
-    if(check == True):
-        new_user = User(email= email, first_name=name, password=generate_password_hash(password, method='sha256'), is_active = True, is_authenticated = True)
-        db.session.add(new_user)
-        db.session.commit()
-        flash('Account created!', category='success')
-        return redirect(url_for('auth.login'))
+    print(check)
+    if(check):
+        if(name == "admin"):
+            new_user = User(email= email, first_name=name, password=generate_password_hash(password, method='sha256'), is_active = True, is_authenticated = True, is_admin = True)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account created!', category='success')
+            return redirect(url_for('auth.login'))
+        else:
+            new_user = User(email= email, first_name=name, password=generate_password_hash(password, method='sha256'), is_active = True, is_authenticated = True, is_admin = False)
+            db.session.add(new_user)
+            db.session.commit()
+            flash('Account created!', category='success')
+            return redirect(url_for('auth.login'))
     else:
+        flash('Returning to Sign up page!', category='success')
         return render_template("sign_up.html", user=current_user)
         
