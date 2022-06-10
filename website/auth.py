@@ -72,7 +72,7 @@ def sign_up():
 
 @auth.route('/sign_up_confirm/<check>/<email>/<name>/<password>', methods=['GET', 'POST'])
 def sign_up_confirm(check, email, name, password):
-    if(check == True):
+    if(check == "true"):
         new_user = User(email= email, name=name, password=generate_password_hash(password, method='sha256'), is_active = True, is_authenticated = True, is_admin = False)
         db.session.add(new_user)
         db.session.commit()
@@ -80,5 +80,5 @@ def sign_up_confirm(check, email, name, password):
         return redirect(url_for('auth.login'))
     else:
         flash('Returning to Sign up page!', category='success')
-        return render_template("sign_up.html", user=current_user)
+        return redirect(url_for('auth.sign_up'))
         
