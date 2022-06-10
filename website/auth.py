@@ -65,15 +65,14 @@ def sign_up():
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            return render_template("confirm.html", user=current_user, email = email, name = name, password = password1)
+            return render_template("sign_up_confirm.html", user=current_user, email = email, name = name, password = password1)
 
     return render_template("sign_up.html", user=current_user)
 
 
-@auth.route('/confirm/<check>/<email>/<name>/<password>', methods=['GET', 'POST'])
-def confirm(check, email, name, password):
-    print(check)
-    if(check):
+@auth.route('/sign_up_confirm/<check>/<email>/<name>/<password>', methods=['GET', 'POST'])
+def sign_up_confirm(check, email, name, password):
+    if(check == True):
         new_user = User(email= email, name=name, password=generate_password_hash(password, method='sha256'), is_active = True, is_authenticated = True, is_admin = False)
         db.session.add(new_user)
         db.session.commit()

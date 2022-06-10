@@ -1,4 +1,3 @@
 add 2 stage authentication
 add option to change user details (settings page)
-create and admin account thats auto created, change current if statement for determining if someone is an admin
 add pop up to ensure user means to delete a specific computer - (responsive forms on w3schools)
