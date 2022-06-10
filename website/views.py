@@ -4,8 +4,6 @@ from .models import Computer
 from . import db
 import json
 
-
-
 #defines a blueprint for the views
 views = Blueprint('views', __name__)
 

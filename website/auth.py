@@ -10,7 +10,17 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'GET':
+        admin = User.query.filter_by(is_admin=True).first()
+        if admin:
+            pass
+        else:
+            new_admin = User(email= "admin@gmail.com", name="admin", password=generate_password_hash("password", method='sha256'), is_active = True, is_authenticated = True, is_admin = True)
+            db.session.add(new_admin)
+            db.session.commit()
+
     if request.method == 'POST':
+    
         email = request.form.get('email')
         password = request.form.get('password')
 
@@ -59,22 +69,16 @@ def sign_up():
 
     return render_template("sign_up.html", user=current_user)
 
+
 @auth.route('/confirm/<check>/<email>/<name>/<password>', methods=['GET', 'POST'])
 def confirm(check, email, name, password):
     print(check)
     if(check):
-        if(name == "admin"):
-            new_user = User(email= email, first_name=name, password=generate_password_hash(password, method='sha256'), is_active = True, is_authenticated = True, is_admin = True)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Account created!', category='success')
-            return redirect(url_for('auth.login'))
-        else:
-            new_user = User(email= email, first_name=name, password=generate_password_hash(password, method='sha256'), is_active = True, is_authenticated = True, is_admin = False)
-            db.session.add(new_user)
-            db.session.commit()
-            flash('Account created!', category='success')
-            return redirect(url_for('auth.login'))
+        new_user = User(email= email, name=name, password=generate_password_hash(password, method='sha256'), is_active = True, is_authenticated = True, is_admin = False)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Account created!', category='success')
+        return redirect(url_for('auth.login'))
     else:
         flash('Returning to Sign up page!', category='success')
         return render_template("sign_up.html", user=current_user)
