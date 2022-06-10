@@ -1,4 +1,2 @@
 add 2 stage authentication
-add option to change user details (settings page)
-find a way around hardcoding certain users to be admins -- ask dad about real situations?
-add pop up to ensure user means to delete a specific computer - (responsive forms on w3schools)\
+add pop up to ensure user means to delete a specific computer - (responsive forms on w3schools)

@@ -4,8 +4,6 @@ from .models import Computer
 from . import db
 import json
 
-
-
 #defines a blueprint for the views
 views = Blueprint('views', __name__)
 
@@ -64,9 +62,9 @@ def search():
     return render_template("search.html", user = current_user)
 
 
-@views.route('/edit/<serial>', methods=['GET', 'POST'])
+@views.route('/computer_edit/<serial>', methods=['GET', 'POST'])
 @login_required
-def edit(serial):
+def computer_edit(serial):
     if request.method == 'POST':
         computer = Computer.query.filter_by(serial = serial).first()
         new_name = request.form.get('new_name')    
@@ -93,12 +91,41 @@ def edit(serial):
                 return render_template("search.html", user = current_user)
 
 
-    return render_template("edit.html", user = current_user)
+    return render_template("computer_edit.html", user = current_user)
 
 
 @views.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
     return render_template("settings.html", user = current_user)
+
+
+@views.route('/edit_settings', methods=['GET', 'POST'])
+@login_required
+def edit_settings():
+    if request.method == 'GET':
+        return render_template("settings_edit.html", user = current_user)
+
+    if request.method == 'POST':
+        user = current_user
+        new_name = request.form.get('new_name')    
+        new_email = request.form.get('new_email')    
+        
+        if(new_email != None and new_name != None ):
+            user.email = new_email
+            db.session.merge(user)
+            db.session.flush()
+            db.session.commit()
+            
+            user.name = new_name
+            db.session.merge(user)
+            db.session.flush()
+            db.session.commit()
+            
+            return render_template("settings.html", user = current_user)
+
+
+    return render_template("settings_edit.html", user = current_user)
+
 
 

@@ -20,8 +20,9 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
 
     from .models import User
-
-    create_database(app)
+    #recreate_database(app)
+    create_new_database(app)
+    
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -32,10 +33,18 @@ def create_app():
         return User.query.get(int(id))
 
     return app
+    
 
 
-def create_database(app):
+def recreate_database(app):
     if not path.exists('website/' + DB_NAME):
         db.drop_all(app=app)
         db.create_all(app=app)
+
         print('Created Database!')
+
+def create_new_database(app):
+    db.drop_all(app=app)
+    db.create_all(app=app)
+
+    print('Created Database!')
