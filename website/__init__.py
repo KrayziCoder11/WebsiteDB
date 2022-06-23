@@ -20,8 +20,8 @@ def create_app():
     app.register_blueprint(auth, url_prefix='/')
 
     from .models import User
-    #recreate_database(app)
-    create_new_database(app)
+    recreate_database(app)
+    #create_new_database(app)
     
 
     login_manager = LoginManager()
