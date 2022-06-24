@@ -52,12 +52,16 @@ def delete_computer(serial, name):
 @views.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        computers = Computer.query.filter(Computer.name.contains('')).all()
+        if computers:
+            return render_template("search.html", user = current_user, computers = computers)
+    elif request.method == 'POST':
         name = request.form.get('name') 
                
         computers = Computer.query.filter(Computer.name.contains(name)).all()
         if computers:
-            return render_template("search.html", user = current_user, computers = computers, name = name)
+            return render_template("search.html", user = current_user, computers = computers)
                 
     return render_template("search.html", user = current_user)
 

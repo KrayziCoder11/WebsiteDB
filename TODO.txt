@@ -9,10 +9,21 @@ allow admins to change exisiting users into admins
 
 
 CURRENT: change search page -- results bar and filter at top with following filters:
-    status (active or not)
-    user (name only)
-    computer name 
-    serial
-    model
-    (sorted alphebetically)
+    Steps:
+        2. add filter above search
+            filter by :
+                status (active or not)
+                user (puts computers in order by name alphabetically)
+                computer name (alphabetically)
+                serial
+                model
+        3. connect filter to seach mechanic via "filter" Button 
+        4. have table sort alphabetically
+        5. have different pages for table
+        6. have table show columns and rows
+        7. w3school:
+            filter list or filter table
+            click dropdown
 
+
+        
