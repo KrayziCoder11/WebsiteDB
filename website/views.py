@@ -34,21 +34,20 @@ def home():
     return render_template("home.html", user=current_user)
 
 
-@views.route('/delete-computer/<serial>/<name>', methods=['GET', 'POST'])
-def delete_computer(serial, name):
+@views.route('/delete-computer/<serial>', methods=['GET', 'POST'])
+def delete_computer(serial):
     computer = Computer.query.filter_by(serial = serial).first()
         
     if computer:
         db.session.delete(computer)
         db.session.commit()
     
-    
-    computers = Computer.query.filter(Computer.name.contains(name)).all()
+    computers = Computer.query.filter(Computer.name.contains("")).all()
     if len(computers) < 1:
         flash('There are no more computers in the database, please add more', category='success')
         return render_template("home.html", user=current_user)
     else:
-        return render_template("search.html", user = current_user, computers = computers, name = name)
+        return render_template("search.html", user = current_user, computers = computers)
 
 
 @views.route('/search', methods=['GET', 'POST'])
@@ -76,40 +75,41 @@ def search():
             filtered_computers = selectionSort(filtered_computers)
             return render_template("search.html", user = current_user, computers = filtered_computers, models = models, users = users, locations = locations)
                 
-    return render_template("search.html", user = current_user)
+    return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations)
 
 
 @views.route('/computer_edit/<serial>', methods=['GET', 'POST'])
 @login_required
 def computer_edit(serial):
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render_template("computer_edit.html", user = current_user)
+    elif request.method == 'POST':
         computer = Computer.query.filter_by(serial = serial).first()
         new_name = request.form.get('new_name')    
         new_serial = request.form.get('new_serial')    
-        new_location = request.form.get('new_location')          
+        new_location = request.form.get('new_location')
+        new_model = request.form.get('model')          
+        new_user = request.form.get('new_user')
+        new_active = request.form.get('active')
         
         if computer:
-            if(new_location != None and new_name != None and new_location != None):
+            if(new_active != None and new_model != None and new_user != None and new_location != None and new_name != None and new_location != None):
                 computer.location = new_location
-                db.session.merge(computer)
-                db.session.flush()
-                db.session.commit()
-                
+                computer.is_active = new_active
                 computer.name = new_name
-                db.session.merge(computer)
-                db.session.flush()
-                db.session.commit()
-                
+                computer.model = new_model
                 computer.serial = new_serial
+                computer.user_name = new_user
+                
+                
                 db.session.merge(computer)
                 db.session.flush()
                 db.session.commit()
                 
                 return render_template("search.html", user = current_user)
-
-
-    return render_template("computer_edit.html", user = current_user)
-
+    #return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations)
+    return render_template("search.html", user = current_user)
+    
 
 @views.route('/settings', methods=['GET', 'POST'])
 @login_required

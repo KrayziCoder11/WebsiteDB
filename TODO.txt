@@ -4,6 +4,8 @@ add pop up to ensure user means to delete a specific computer - (responsive form
 
 add delete confirm page for admins
 adapt edit page to allow for editing all computer ettributes
+    make sure it woirks
+    assign buttons to functions
 allow admins to change exisiting users into admins
     allow reverse as well
 
