@@ -3,21 +3,14 @@ add pop up to ensure user means to delete a specific computer - (responsive form
 
 
 add delete confirm page for admins
+adapt edit page to allow for editing all computer ettributes
 allow admins to change exisiting users into admins
     allow reverse as well
 
 
 
 CURRENT: change search page -- results bar and filter at top with following filters:
-    Steps:
-        2. add filter above search
-            filter by :
-                status (active or not)
-                user (puts computers in order by name alphabetically)
-                computer name (alphabetically)
-                serial
-                model
-        3. connect filter to seach mechanic via "filter" Button 
+    Steps: 
         4. have table sort alphabetically
         5. have different pages for table
         6. have table show columns and rows
