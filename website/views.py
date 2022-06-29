@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import Computer
+from .models import Computer, User
 from . import db
 from .logic import *
 
@@ -81,6 +81,7 @@ def search():
 @views.route('/computer_edit/<serial>', methods=['GET', 'POST'])
 @login_required
 def computer_edit(serial):
+    
     if request.method == 'GET':
         return render_template("computer_edit.html", user = current_user)
     elif request.method == 'POST':
@@ -93,7 +94,20 @@ def computer_edit(serial):
         new_active = request.form.get('active')
         
         if computer:
-            if(new_active != None and new_model != None and new_user != None and new_location != None and new_name != None and new_location != None):
+            if len(new_name) < 1:
+                flash('The computer name is too short!', category='error')
+            elif len(new_user) < 1:
+                flash('The user name is too short!', category='error')
+            elif len(new_location) < 1:
+                flash('Invalid location!', category='error')
+            elif len(new_model) < 1:
+                flash('Invalid Model!', category='error')
+            elif not (new_serial.isdigit()):
+                flash('Serial Number can only have numbers!', category='error')
+            elif new_active == None:
+                flash("Select whether the computer is active", category = "error")
+        
+            elif(new_active != None and new_model != None and new_user != None and new_location != None and new_name != None and new_location != None):
                 computer.location = new_location
                 computer.is_active = new_active
                 computer.name = new_name
@@ -106,8 +120,11 @@ def computer_edit(serial):
                 db.session.flush()
                 db.session.commit()
                 
-                return render_template("search.html", user = current_user)
-    #return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations)
+                computers = Computer.query.filter(Computer.name.contains('')).all()
+                models = get_models(computers)
+                users = get_user_names(computers)
+                locations = get_locations(computers)
+                return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations)
     return render_template("search.html", user = current_user)
     
 
@@ -123,7 +140,7 @@ def edit_settings():
     if request.method == 'GET':
         return render_template("settings_edit.html", user = current_user)
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
         user = current_user
         new_name = request.form.get('new_name')    
         new_email = request.form.get('new_email')    
@@ -145,4 +162,58 @@ def edit_settings():
     return render_template("settings_edit.html", user = current_user)
 
 
+@views.route('/admins', methods=['GET', 'POST'])
+@login_required
+def admins():
+    all_users = User.query.filter(User.name.contains('')).all()
+    admins, users = sort_admins(all_users, current_user)
+    
+
+    if request.method == 'GET':
+        return render_template("admins.html", user = current_user, admins = admins, users = users, s_users = users)
+
+    elif request.method == 'POST':
+        s_name = request.form.get('search name') 
+        name = request.form.get('name') 
+        email = request.form.get('email') 
+
+        s_users = User.query.filter(User.name.contains(s_name), User.name.contains(name), User.email.contains(email)).all()
+        if s_users:
+            filtered_users = selectionSort(s_users)
+            admins, s_users = sort_admins(filtered_users, current_user)
+    
+            return render_template("admins.html", user = current_user, admins = admins, users = users, s_users = s_users)
+        
+        
+        
+
+@views.route('/add_admin/<id>', methods=['GET', 'POST'])
+def add_admin(id):
+    user = User.query.filter_by(id = id).first()
+        
+    if user and not (user.is_admin):
+        user.is_admin = True
+        
+        db.session.merge(user)
+        db.session.flush()
+        db.session.commit()
+        
+    all_users = User.query.filter(User.name.contains('')).all()
+    admins, users = sort_admins(all_users, current_user)
+    return render_template("admins.html", user = current_user, admins = admins, users = users, s_users = users)
+
+@views.route('/delete_admin/<id>', methods=['GET', 'POST'])
+def delete_admin(id):
+    user = User.query.filter_by(id = id).first()
+        
+    if user and (user.is_admin):
+        user.is_admin = False
+        
+        db.session.merge(user)
+        db.session.flush()
+        db.session.commit()
+        
+    all_users = User.query.filter(User.name.contains('')).all()
+    admins, users = sort_admins(all_users, current_user)
+    return render_template("admins.html", user = current_user, admins = admins, users = users, s_users = users)
 

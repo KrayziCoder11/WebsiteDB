@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Search{% endblock %}
+{% block content %}
+
+
+<form method="POST">
+  
+    
+    <h3 align="center" id="title"><u>Current Admins</u></h3>
+    <p align="center">(There must always be at least 1 admin, so you won't be able to change your own status as an admin.)</p>
+    
+    <table align="center" border=" 1px solid">
+        <tr>
+            <th style ="width: 30%"><u>Name</u></th>
+            <th style ="width: 30%"><u>Email</u></th>
+            <th style ="width: 30%"><u></u></th>
+           
+        </tr>
+        {% for a in admins %}
+        <tr>
+          <td> {{a.name}} </td>
+          <td> {{a.email}} </td>   
+          <td>
+            <a href="/delete_admin/{{a.id}}">
+                <input type = "button" value = "Delete" class="btn btn-primary">
+            </a> 
+          </td>
+  
+        </tr>
+        {%endfor%}
+    </table>
+    <br />
+
+    <h3 align="center" id="title"><u>Search For User</u></h3>
+    <div class="form-group">
+      <input
+        type="search name"
+        class="form-control"
+        id="search name"
+        name="search name"
+        placeholder="Enter User Name"
+      />
+    </div>
+
+    <div align="center">
+      <button type="submit" class="btn btn-primary">Search</button>
+      <br/>
+      <br/>
+      <select name="name" id="name">
+            <option value="" selected>All Names</option>
+            {% for u in users %}      
+            <option value="{{u.name}}">{{u.name}}</option>
+            {%endfor%}
+        </select>
+    
+        <select name="email" id="email">
+            <option value="" selected>All Emails</option>
+            {% for u in users %}      
+            <option value="{{u.email}}">{{u.email}}</option>
+            {%endfor%}
+        </select>
+      
+    </div>
+
+    <br />
+    
+      
+
+    <table align = "center" border=" 1px solid">
+        <tr>
+            <th style ="width: 30%"><u>Name</u></th>
+            <th style ="width: 30%"><u>Email</u></th>
+            <th style ="width: 30%"><u></u></th>
+           
+        </tr>
+        {% for u in s_users %}
+        <tr>
+          <td> {{u.name}} </td>
+          <td> {{u.email}} </td>   
+          <td>
+            <a href="/add_admin/{{u.id}}">
+                <input type = "button" value = "Add" class="btn btn-primary">
+            </a> 
+          </td>
+  
+        </tr>
+        {%endfor%}
+    </table>
+    
+        
+</form>
+
+{% endblock %}
+
