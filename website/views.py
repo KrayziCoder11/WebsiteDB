@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from .models import Computer
 from . import db
-import json
+from .logic import *
 
 #defines a blueprint for the views
 views = Blueprint('views', __name__)
@@ -15,18 +15,20 @@ def home():
         c_name = request.form.get('name')
         c_num = request.form.get('serial')
         c_location = request.form.get('location')
+        c_model = request.form.get('model')
 
         if len(c_name) < 1:
             flash('The name is too short!', category='error')
         elif len(c_location) < 1:
             flash('Invalid location!', category='error')
+        elif len(c_model) < 1:
+            flash('Invalid Model!', category='error')
         elif not (c_num.isdigit()):
             flash('Serial Number can only have numbers!', category='error')
         else:
-            new_comp = Computer(name=c_name, serial = c_num, location = c_location)
+            new_comp = Computer(name=c_name, serial = c_num, location = c_location, model = c_model, user_name = current_user.name)
             db.session.add(new_comp)
             db.session.commit()
-            print(c_num)
             flash('Computer added!', category='success')
 
     return render_template("home.html", user=current_user)
@@ -52,16 +54,27 @@ def delete_computer(serial, name):
 @views.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
+    computers = Computer.query.filter(Computer.name.contains('')).all()
+    models = get_models(computers)
+    users = get_user_names(computers)
+    locations = get_locations(computers)
+    
+            
     if request.method == 'GET':
-        computers = Computer.query.filter(Computer.name.contains('')).all()
         if computers:
-            return render_template("search.html", user = current_user, computers = computers)
+            computers = selectionSort(computers)
+            return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations)
     elif request.method == 'POST':
-        name = request.form.get('name') 
-               
-        computers = Computer.query.filter(Computer.name.contains(name)).all()
-        if computers:
-            return render_template("search.html", user = current_user, computers = computers)
+        c_name = request.form.get('name') 
+        c_model = request.form.get('model') 
+        c_location = request.form.get('location') 
+        c_user = request.form.get('user') 
+        c_is_active = request.form.get('active') 
+              
+        filtered_computers = Computer.query.filter(Computer.name.contains(c_name), Computer.model.contains(c_model), Computer.location.contains(c_location), Computer.user_name.contains(c_user), Computer.is_active.contains(c_is_active)).all()
+        if filtered_computers:
+            filtered_computers = selectionSort(filtered_computers)
+            return render_template("search.html", user = current_user, computers = filtered_computers, models = models, users = users, locations = locations)
                 
     return render_template("search.html", user = current_user)
 

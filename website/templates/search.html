@@ -3,6 +3,7 @@
 {% block title %}Search{% endblock %}
 {% block content %}
 
+
 <form method="POST">
   
     <h3 align="center" id="title"><u>Search</u></h3>
@@ -16,14 +17,44 @@
       />
     </div>
 
-    <button onclick="myFunction()" class="dropbtn">Dropdown</button>
-    <div id="myDropdown" class="dropdown-content">
-      <a href="#">Link 1</a>
-      <a href="#">Link 2</a>
-      <a href="#">Link 3</a>
+    <h3 align="center" id="title"><u>Filter</u></h3>
+    
+    <br />
+    <div align="center">
+      <select name="model" id="model">
+        <option value="">By Model</option>
+        {% for m in models %}      
+        <option value="{{m}}">{{m}}</option>
+        {%endfor%}
+      </select>
+  
+      <select name="location" id="location">
+        <option value="" selected>By Location</option>
+        {% for L in locations %}      
+        <option value="{{L}}">{{L}}</option>
+        {%endfor%}
+      </select>
+  
+      <select name="active" id="active">
+        <option value="">Is Active</option>
+        <option value="True">True</option>
+        <option value="False">False</option>
+      </select>
+  
+      <select name="user" id="user">
+        <option value="" selected>By User</option>
+        {% for u in users %}      
+        <option value="{{u}}">{{u}}</option>
+        {%endfor%}
+      </select>
+      <br />
+      <br />
+
+      <button type="submit" class="btn btn-primary">Search</button>
+      <br />
+      
     </div>
     
-    <button type="submit" class="btn btn-primary">Search</button>
     <br />
     <h3 align = "center" id="title"><u>Results</u></h3>
     <br />
@@ -66,11 +97,8 @@
       </tr>
       {%endfor%}
     </table>
-    
-    
-    
+        
 </form>
 
-
-  
 {% endblock %}
+
