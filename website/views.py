@@ -50,6 +50,14 @@ def delete_computer(serial):
         return render_template("search.html", user = current_user, computers = computers)
 
 
+@views.route('/delete_confirm/<serial>', methods=['GET', 'POST'])
+def delete_confirm(serial):
+    if request.method == 'GET':
+        computer = Computer.query.filter_by(serial = serial).first()
+        return render_template("delete_confirmation.html", user = current_user, c = computer)
+    #elif request.method == 'POST':
+
+
 @views.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
@@ -182,10 +190,8 @@ def admins():
             filtered_users = selectionSort(s_users)
             admins, s_users = sort_admins(filtered_users, current_user)
     
-            return render_template("admins.html", user = current_user, admins = admins, users = users, s_users = s_users)
-        
-        
-        
+            return render_template("admins.html", user = current_user, admins = admins, users = users, s_users = s_users)     
+
 
 @views.route('/add_admin/<id>', methods=['GET', 'POST'])
 def add_admin(id):
@@ -201,6 +207,7 @@ def add_admin(id):
     all_users = User.query.filter(User.name.contains('')).all()
     admins, users = sort_admins(all_users, current_user)
     return render_template("admins.html", user = current_user, admins = admins, users = users, s_users = users)
+
 
 @views.route('/delete_admin/<id>', methods=['GET', 'POST'])
 def delete_admin(id):

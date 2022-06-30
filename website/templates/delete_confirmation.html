@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content%}
+    <h3 align="center"><u>Confirmation</u></h3>
+    <div align="center">
+        <p>Please confirm that you wish to delete this computer.<p>
+        <p> All information regarding this computer will disappear and without anyway to get it back</p>
+        <p>Name : {{email}}</p>
+        <p>Serial : {{name}}</p>
+        <p>Location : {{c.location}}</p>
+        <p>Model : {{c.model}}</p>
+        <p>User's Name : {{c.user_name}}</p>
+        <a href="/delete-computer/{{c.serial}}">
+            <input type = "button" value = "Confirm">
+        </a>  
+        <a href="/search">
+            <input type = "button" value = "Cancel">
+        </a> 
+    </div>
+        
+{% endblock %}
