@@ -11,14 +11,14 @@
     <p align="center">(There must always be at least 1 admin, so you won't be able to change your own status as an admin.)</p>
     
     <table align="center" border=" 1px solid">
-        <tr>
+        <tr align = "center">
             <th style ="width: 30%"><u>Name</u></th>
             <th style ="width: 30%"><u>Email</u></th>
             <th style ="width: 30%"><u></u></th>
            
         </tr>
         {% for a in admins %}
-        <tr>
+        <tr align = "center">
           <td> {{a.name}} </td>
           <td> {{a.email}} </td>   
           <td>
@@ -68,14 +68,14 @@
       
 
     <table align = "center" border=" 1px solid">
-        <tr>
+        <tr align = "center">
             <th style ="width: 30%"><u>Name</u></th>
             <th style ="width: 30%"><u>Email</u></th>
             <th style ="width: 30%"><u></u></th>
            
         </tr>
         {% for u in s_users %}
-        <tr>
+        <tr align = "center">
           <td> {{u.name}} </td>
           <td> {{u.email}} </td>   
           <td>

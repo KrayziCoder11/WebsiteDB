@@ -3,24 +3,17 @@
 {% block content %}
 
 <form method="POST">
-    <table align="center" style ="width: 50%">
-        
-        <h3 align="center" ><u>Settings</u></h3>
-        <tr>
-          <p align="center"> Name: {{user.name}} </p>
-        </tr>
-        <tr>
-          <p align="center"> Email: {{user.email}} </p>
-        </tr>
-        <tr>
-            <a align="center" href="/edit_settings">
-                <input type = "button" value = "Edit">
-            </a>
-        </tr>
-        
-      </table>
-    
-  </form>
+  <div align="center">
+    <h3 ><u>Settings</u></h3>
+    <p > Name: {{user.name}}</p>
+    <p> Email: {{user.email}}</p>
+    <p > 
+      <a href="/edit_settings">
+        <input type = "button" value = "Edit User Info" class="btn btn-primary">
+      </a>
+    </p>
+  </div>
+</form>
     
   {% endblock %}
 
