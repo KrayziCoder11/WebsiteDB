@@ -2,21 +2,9 @@ add 2 stage authentication
 add pop up to ensure user means to delete a specific computer - (responsive forms on w3schools)
 
 
-add delete confirm page for admins
-adapt edit page to allow for editing all computer ettributes
-allow admins to change exisiting users into admins
-    allow reverse as well
-
-
-
 CURRENT: change search page -- results bar and filter at top with following filters:
     Steps: 
-        4. have table sort alphabetically
         5. have different pages for table
-        6. have table show columns and rows
-        7. w3school:
-            filter list or filter table
-            click dropdown
-
+        
 
         

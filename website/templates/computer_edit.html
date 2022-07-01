@@ -4,7 +4,7 @@
 <form method="POST">
     <h3 align="center"><u>Edit</u></h3>
     <br />
-    <label for="name">Enter The New Name For This Computer</label>
+    <label for="name">Enter New Computer Name </label>
     <input
     type="new_name"
     class="form-control"
@@ -12,7 +12,7 @@
     name="new_name"
     placeholder=" "
     />
-    <label for="serial">Enter The New Serial Number For This Computer</label>
+    <label for="serial">Enter New Serial Number </label>
     <input
     type="new_serial"
     class="form-control"
@@ -21,7 +21,7 @@
     placeholder=" "
     />
 
-    <label for="location">Enter The New Location For This Computer</label>
+    <label for="location">Enter New Location</label>
     <input
     type="new_location"
     class="form-control"
@@ -30,8 +30,40 @@
     placeholder=" "
     />
 
+    <label for="location">Enter New User Name</label>
+    <input
+    type="new_name"
+    class="form-control"
+    id="new_user"
+    name="new_user"
+    placeholder=" "
+    />
     <br />
-    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <select name="model" id="model">
+        <option value="empty"> Enter New Model</option>
+        <option value="Windows">Windows </option>
+        <option value="MacBook">MacBook</option>
+        <option value="Dell">Dell</option>
+    </select>
+
+    <br />
+
+    <br />
+    <select name="active" id="active">
+        <option value="empty"> Enter current Activity </option>
+        <option value="True">True </option>
+        <option value="False">False</option>
+    </select>
+  
+
+    <br />
+    <br />
+    <a href="/search">
+        <input type = "button" value = "Cancel" class="btn btn-primary">
+    </a>
+    
+    <button type="submit" class="btn btn-primary">Submit Changes</button>
 
     
 </form>

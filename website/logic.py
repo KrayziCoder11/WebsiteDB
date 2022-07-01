@@ -20,7 +20,6 @@ def get_models(computers):
             models.append(c.model)
     return models
 
-
 def selectionSort(computers):
     size = len(computers)
     for s in range(size):
@@ -36,3 +35,17 @@ def selectionSort(computers):
         # Arranging min at the correct position
         (computers[s], computers[min_idx]) = (computers[min_idx], computers[s])
     return computers
+
+def sort_admins(all_users, current_user):
+    admins = []
+    for u in all_users:
+        if (u.is_admin) and (u.email is not current_user.email):
+            admins.append(u)
+
+    users = []
+    for u in all_users:
+        if not(u.is_admin):
+            users.append(u)
+    return admins, users
+
+
