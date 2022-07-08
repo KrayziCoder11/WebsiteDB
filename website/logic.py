@@ -20,6 +20,51 @@ def get_models(computers):
             models.append(c.model)
     return models
 
+def get_names(computers):
+    names = []
+    for c in computers:
+        if c.name not in names:
+            names.append(c.name)
+    return names
+
+def get_serials(computers):
+    serials = []
+    for c in computers:
+        if c.serial not in serials:
+            serials.append(c.serial)
+    return serials
+
+def get_activities(computers):
+    acts = []
+    for c in computers:
+        if c.is_active not in acts:
+            acts.append(c.is_active)
+    return acts
+
+def get_ten(computers, index):
+    ten = []
+    index = index * 10
+    #if page can be completely filled
+    if len(computers) >= (index):
+        index = index - 10
+        for i in range(0, 10):
+            ten.append(computers[index + i])
+        
+    #if parital page
+    elif len(computers) < (index) and len(computers) > (index - 10):
+        index = index - 10
+        for i in range(0, (len(computers) % 10)):
+            ten.append(computers[index + i])
+
+    #if page isnt filled
+    elif len(computers) < (index - 10):
+        return get_ten(computers, int(index /10) - 1)
+        
+    return ten
+        
+
+
+
 def selectionSort(computers):
     size = len(computers)
     for s in range(size):

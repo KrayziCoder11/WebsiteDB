@@ -3,6 +3,9 @@ from flask_login import login_required, current_user
 from .models import Computer, User
 from . import db
 from .logic import *
+from website import logic
+
+SEARCH_PARAM = []
 
 #defines a blueprint for the views
 views = Blueprint('views', __name__)
@@ -47,7 +50,11 @@ def delete_computer(serial):
         flash('There are no more computers in the database, please add more', category='success')
         return render_template("home.html", user=current_user)
     else:
-        return render_template("search.html", user = current_user, computers = computers)
+        models = get_models(computers)
+        users = get_user_names(computers)
+        locations = get_locations(computers) 
+        table_computers = get_ten(computers, 1)       
+        return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
 
 
 @views.route('/delete_confirm/<serial>', methods=['GET', 'POST'])
@@ -62,29 +69,78 @@ def delete_confirm(serial):
 @login_required
 def search():
     computers = Computer.query.filter(Computer.name.contains('')).all()
+    computers = selectionSort(computers)
     models = get_models(computers)
     users = get_user_names(computers)
     locations = get_locations(computers)
+    if len(computers) == 0:
+        table_computers = []
+    else:  
+        table_computers = get_ten(computers, 1)
     
+            
             
     if request.method == 'GET':
         if computers:
-            computers = selectionSort(computers)
-            return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations)
+            SEARCH_PARAM.clear()
+            return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
     elif request.method == 'POST':
         c_name = request.form.get('name') 
         c_model = request.form.get('model') 
         c_location = request.form.get('location') 
         c_user = request.form.get('user') 
         c_is_active = request.form.get('active') 
+        SEARCH_PARAM.clear()
+        SEARCH_PARAM.append(c_name)
+        SEARCH_PARAM.append(c_model)
+        SEARCH_PARAM.append(c_location)
+        SEARCH_PARAM.append(c_user)
+        SEARCH_PARAM.append(c_is_active)
               
-        filtered_computers = Computer.query.filter(Computer.name.contains(c_name), Computer.model.contains(c_model), Computer.location.contains(c_location), Computer.user_name.contains(c_user), Computer.is_active.contains(c_is_active)).all()
-        if filtered_computers:
-            filtered_computers = selectionSort(filtered_computers)
-            return render_template("search.html", user = current_user, computers = filtered_computers, models = models, users = users, locations = locations)
-                
-    return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations)
+        computers = Computer.query.filter(Computer.name.contains(c_name), Computer.model.contains(c_model), Computer.location.contains(c_location), Computer.user_name.contains(c_user), Computer.is_active.contains(c_is_active)).all()
+        if computers:
+            computers = selectionSort(computers)
+            models = get_models(computers)
+            users = get_user_names(computers)
+            locations = get_locations(computers)
+            table_computers = get_ten(computers, 1)
+            return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
+    return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
 
+@views.route('/turn/<page>', methods=['GET', 'POST'])
+@login_required
+def turn(page):
+    page = int(page)
+    if page < 1:
+        page = 1
+    if len(SEARCH_PARAM) == 5:
+        computers = Computer.query.filter(Computer.name.contains(SEARCH_PARAM[0]), Computer.model.contains(SEARCH_PARAM[1]), Computer.location.contains(SEARCH_PARAM[2]), Computer.user_name.contains(SEARCH_PARAM[3]), Computer.is_active.contains(SEARCH_PARAM[4])).all()
+    else:
+        computers = Computer.query.filter(Computer.name.contains('')).all()
+        
+
+    models = get_models(computers) 
+    users = get_user_names(computers)
+    locations = get_locations(computers)
+    if (len(computers) % 10 == 0):
+        num_pages = len(computers) / 10 
+        if page > num_pages:
+            page = int(num_pages)
+        
+    else:
+        num_pages = float(len(computers)) / 10 
+        if page > int(num_pages) + 1:
+            page = int(num_pages) + 1
+        
+    if len(computers) == 0:
+        table_computers = []
+    else:
+        table_computers = get_ten(computers, page)
+    
+            
+    return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = page)
+    #finish turn page method, edit other render templates, edit search.html as needed
+    
 
 @views.route('/computer_edit/<serial>', methods=['GET', 'POST'])
 @login_required
@@ -132,9 +188,10 @@ def computer_edit(serial):
                 models = get_models(computers)
                 users = get_user_names(computers)
                 locations = get_locations(computers)
-                return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations)
-    return render_template("search.html", user = current_user)
-    
+                table_computers = get_ten(computers, 1)
+                return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
+    return render_template("home.html", user = current_user)
+
 
 @views.route('/settings', methods=['GET', 'POST'])
 @login_required

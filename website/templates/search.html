@@ -59,7 +59,7 @@
     <h3 align = "center" id="title"><u>Results</u></h3>
     <br />
   
-    <table border=" 1px solid">
+    <table id = "table" border=" 1px solid">
       <tr align = "center">
           <th style ="width: 20%"><u>Name</u></th>
           <th style ="width: 20%"><u>Serial Number</u></th>
@@ -69,7 +69,7 @@
           <th style ="width: 20%"><u>User Name</u></th>
           
       </tr>
-      {% for c in computers %}
+      {% for c in table_computers %}
       <tr align = "center">
         <td> {{c.name}} </td>
         <td> {{c.serial}} </td>
@@ -97,7 +97,102 @@
       </tr>
       {%endfor%}
     </table>
-        
+
+    <a href="/turn/{{page - 1}}">
+      <input type = "button" value = "<" class="btn btn-primary">
+    </a>
+    <a href="/turn/{{page + 1}}">
+      <input type = "button" value = ">" class="btn btn-primary">
+    </a> 
+    
+    <input type= "hidden" id= "inputID" value= "" >
+    
+  <script>
+    function changePage(){
+      
+      var table = document.getElementById("table");
+      
+      var users = document.getElementById("users").value;
+      users = users.split('\'')
+
+      var names = document.getElementById("names").value;
+      names = names.split('\'')
+  
+      var serials = document.getElementById("serials").value;
+      serials = serials.split('\'')
+      
+      var locations = document.getElementById("locations").value;
+      locations = locations.split('\'')
+      
+      var models = document.getElementById("models").value;
+      models = models.split('\'')
+      
+      var activities = document.getElementById("activities").value;
+      activities = activities.split('\'')
+
+      
+
+      
+      
+      //limit = document.getElementById("results").rows.length
+
+      prev_page = document.getElementById("prev_page");
+      if(prev_page == null){
+        prev_page = 1
+      }
+      
+      page = document.getElementById("page").value;
+
+      page = page - 1
+      page = page * 10
+      if (page + 9 >= limit){
+        limit = page + (limit % 10)
+      }
+      else{
+        limit = page + 10
+      }
+      
+
+      for (var x = 0; x < limit; x++){    
+        for (var y = 0; y < 6; y++){
+          if (y ==0){
+            table.rows[x].cells[y].innerHTML = "";
+          }
+          else if (y == 1){}
+          else if (y == 2){}
+          else if (y == 3){}
+          else if (y == 4){}
+          else if (y == 5){}
+          
+        }
+      }
+    }
+    
+    /*var table = document.getElementById("table"),rIndex;
+
+      for(var i = 1; i < table.rows.length; i++)
+      {
+        table.rows[i].onclick = function()
+        {
+          rIndex = this.rowIndex;
+          
+          document.getElementById("fname").value = this.cells[0].innerHTML;
+          document.getElementById("lname").value = this.cells[1].innerHTML;
+          document.getElementById("age").value = this.cells[2].innerHTML;
+        };
+      }
+
+
+    // edit the row
+      function editRow()
+      {
+        table.rows[rIndex].cells[0].innerHTML = document.getElementById("fname").value;
+        table.rows[rIndex].cells[1].innerHTML = document.getElementById("lname").value;
+        table.rows[rIndex].cells[2].innerHTML = document.getElementById("age").value;
+      }
+    */
+    </script>  
+    
 </form>
 
 {% endblock %}
