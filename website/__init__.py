@@ -15,10 +15,12 @@ def create_app():
 
     from .views import views
     from .auth import auth
-
+    from .search_page import search_page
+    
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
-
+    app.register_blueprint(search_page, url_prefix='/')
+    
     from .models import User
     recreate_database(app)
     #create_new_database(app)
@@ -35,7 +37,7 @@ def create_app():
     return app
     
 
-
+#created these two functions due to how often i needed to (re)create the db throughout development
 def recreate_database(app):
     if not path.exists('website/' + DB_NAME):
         db.drop_all(app=app)
