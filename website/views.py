@@ -53,8 +53,9 @@ def delete_computer(serial):
         models = get_models(computers)
         users = get_user_names(computers)
         locations = get_locations(computers) 
-        table_computers = get_ten(computers, 1)       
-        return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
+        table_computers = get_ten(computers, 1) 
+        max = get_max_pages(computers)      
+        return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1, max = max)
 
 
 @views.route('/delete_confirm/<serial>', methods=['GET', 'POST'])
@@ -62,7 +63,6 @@ def delete_confirm(serial):
     if request.method == 'GET':
         computer = Computer.query.filter_by(serial = serial).first()
         return render_template("delete_confirmation.html", user = current_user, c = computer)
-    #elif request.method == 'POST':
 
 
 @views.route('/search', methods=['GET', 'POST'])
@@ -73,8 +73,11 @@ def search():
     models = get_models(computers)
     users = get_user_names(computers)
     locations = get_locations(computers)
+    max = get_max_pages(computers)      
+        
     if len(computers) == 0:
         table_computers = []
+        max = 1
     else:  
         table_computers = get_ten(computers, 1)
     
@@ -83,7 +86,7 @@ def search():
     if request.method == 'GET':
         if computers:
             SEARCH_PARAM.clear()
-            return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
+            return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1, max = max)
     elif request.method == 'POST':
         c_name = request.form.get('name') 
         c_model = request.form.get('model') 
@@ -104,8 +107,11 @@ def search():
             users = get_user_names(computers)
             locations = get_locations(computers)
             table_computers = get_ten(computers, 1)
-            return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
-    return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
+            max = get_max_pages(computers)      
+        
+            return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1, max = max)
+    return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1, max = max)
+
 
 @views.route('/turn/<page>', methods=['GET', 'POST'])
 @login_required
@@ -122,6 +128,8 @@ def turn(page):
     models = get_models(computers) 
     users = get_user_names(computers)
     locations = get_locations(computers)
+    max = get_max_pages(computers)      
+        
     if (len(computers) % 10 == 0):
         num_pages = len(computers) / 10 
         if page > num_pages:
@@ -134,13 +142,13 @@ def turn(page):
         
     if len(computers) == 0:
         table_computers = []
+        max = 1
     else:
         table_computers = get_ten(computers, page)
     
             
-    return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = page)
-    #finish turn page method, edit other render templates, edit search.html as needed
-    
+    return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = page, max = max)
+
 
 @views.route('/computer_edit/<serial>', methods=['GET', 'POST'])
 @login_required
@@ -189,7 +197,9 @@ def computer_edit(serial):
                 users = get_user_names(computers)
                 locations = get_locations(computers)
                 table_computers = get_ten(computers, 1)
-                return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1)
+                max = get_max_pages(computers)      
+        
+                return render_template("search.html", user = current_user, computers = computers, models = models, users = users, locations = locations, table_computers = table_computers, page = 1, max = max)
     return render_template("home.html", user = current_user)
 
 

@@ -62,7 +62,13 @@ def get_ten(computers, index):
         
     return ten
         
-
+def get_max_pages(computers):
+    if (len(computers) > 0):
+        max = int(len(computers) / 10)
+        if (len(computers) % 10 > 0):
+            max = max + 1
+        return max
+    return 1
 
 
 def selectionSort(computers):
