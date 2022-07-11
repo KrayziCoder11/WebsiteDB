@@ -1,10 +1,6 @@
 add 2 stage authentication
-add pop up to ensure user means to delete a specific computer - (responsive forms on w3schools)
+add drop down for true/false on home screen for computer activity
 
-
-CURRENT: change search page -- results bar and filter at top with following filters:
-    Steps: 
-        5. have different pages for table
         
 
         
