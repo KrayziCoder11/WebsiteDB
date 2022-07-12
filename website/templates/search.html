@@ -16,8 +16,7 @@
         placeholder="Enter Computer Name"
       />
     </div>
-
-    <h3 align="center" id="title"><u>Filter</u></h3>
+    
     
     <br />
     <div align="center">
@@ -48,6 +47,50 @@
         {%endfor%}
       </select>
       <br />
+      <br />
+      
+      {%if filtered%}
+      <table id = "table" border=" 1px solid">
+        <tr align = "center">
+            <th style ="width: 50%">Active Filters</th>
+        </tr>
+        {%if filter[0]%}
+        <tr align = "center">
+          <td> Name: </td>
+          <td> {{filter[0]}} </td>
+        </tr>
+        {%endif%}
+
+        {%if filter[1]%}
+        <tr align = "center">
+          <td> Model: </td>
+          <td> {{filter[1]}} </td>
+        </tr>
+        {%endif%}
+
+        {%if filter[2]%}
+        <tr align = "center">
+          <td> Location: </td>
+          <td> {{filter[2]}} </td>
+        </tr>
+        {%endif%}
+
+        {%if filter[3]%}
+        <tr align = "center">
+          <td> User: </td>
+          <td> {{filter[3]}} </td>
+        </tr>
+        {%endif%}
+
+        {%if filter[4]%}
+        <tr align = "center">
+          <td> Is Active: </td>
+          <td> {{filter[4]}} </td>
+        </tr>
+        {%endif%}
+        
+      </table>
+      {%endif%}
       <br />
 
       <button type="submit" class="btn btn-primary">Search</button>
@@ -88,36 +131,39 @@
             </a> 
           </td>
   
-        <td>
-          <a href="/computer_edit/{{c.serial}}">
-              <input type = "button" value = "Edit" class="btn btn-primary">
-          </a> 
-        </td>
+          <td>
+            <a href="/computer_edit/{{c.serial}}">
+                <input type = "button" value = "Edit" class="btn btn-primary">
+            </a> 
+          </td>
         {%endif%}  
       </tr>
       {%endfor%}
     </table>
 
+    {%if user.is_admin %}
     </br>
     <div align="center">
       <a href="/turn/{{1}}">
-        <input type = "button" value = "1" class="btn btn-primary">
+        <input type = "button" value = "1" class="btn btn-secondary">
       </a>
 
     
       <a href="/turn/{{page - 1}}">
-        <input type = "button" value = "<" class="btn btn-primary">
+        <input type = "button" value = "<" class="btn btn-secondary">
       </a>
 
+      
       <a href="/turn/{{page + 1}}">
-        <input type = "button" value = ">" class="btn btn-primary">
+        <input type = "button" value = ">" class="btn btn-secondary">
       </a> 
 
 
       <a href="/turn/{{max}}">
-        <input type = "button" value = "{{max}}" class="btn btn-primary">
+        <input type = "button" value = "{{max}}" class="btn btn-secondary">
       </a>
     </div>
+    {%endif%}
 
     </br>
     
