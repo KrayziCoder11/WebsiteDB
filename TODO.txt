@@ -1,7 +1,6 @@
 add 2 stage authentication
+
 add drop down for true/false on home screen for computer activity
-
-when edit/delete computer, return to page and filtered search
         
-
+if you are the only admin, have the admins page state that under current admins
         

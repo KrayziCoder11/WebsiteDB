@@ -80,8 +80,17 @@ def selectionSort(computers):
              
             # For sorting in descending order
             # for minimum element in each loop
-            if computers[i].name < computers[min_idx].name:
+            name1 = computers[i].name
+            name2 = computers[min_idx].name
+            if name1[0] < name2[0]:
                 min_idx = i
+            elif name1[0] == name2[0]:
+                if name1[1] < name2[1]:
+                    min_idx = i
+                elif computers[i].serial < computers[min_idx].serial:
+                    min_idx = i
+                
+            
  
         # Arranging min at the correct position
         (computers[s], computers[min_idx]) = (computers[min_idx], computers[s])

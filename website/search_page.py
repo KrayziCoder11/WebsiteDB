@@ -19,6 +19,8 @@ def delete_computer(serial):
         db.session.commit()
     
     computers = Computer.query.filter(Computer.name.contains("")).all()
+    computers = selectionSort(computers)
+    
     
     if len(computers) < 1:
         flash('There are no more computers in the database, please add more', category='success')
@@ -27,8 +29,12 @@ def delete_computer(serial):
         models = get_models(computers)
         users = get_user_names(computers)
         locations = get_locations(computers) 
+        if len(SEARCH_PARAM) == 5:
+            computers = Computer.query.filter(Computer.name.contains(SEARCH_PARAM[0]), Computer.model.contains(SEARCH_PARAM[1]), Computer.location.contains(SEARCH_PARAM[2]), Computer.user_name.contains(SEARCH_PARAM[3]), Computer.is_active.contains(SEARCH_PARAM[4])).all()
+            computers = selectionSort(computers)
+    
+        max = get_max_pages(computers)  
         table_computers = get_ten(computers, 1) 
-        max = get_max_pages(computers)      
         max_array = []
         for i in range(1, max + 1):
             max_array.append(i)
@@ -64,8 +70,10 @@ def search():
                 
             
     if request.method == 'GET':
+        SEARCH_PARAM.clear()
         if computers:
-            SEARCH_PARAM.clear()
+            return render_template("search.html", user = current_user, filtered = False, filter = SEARCH_PARAM, models = models, users = users, max_array = max_array, locations = locations, table_computers = table_computers, page = 1, max = max)
+        elif len(computers) == 0:
             return render_template("search.html", user = current_user, filtered = False, filter = SEARCH_PARAM, models = models, users = users, max_array = max_array, locations = locations, table_computers = table_computers, page = 1, max = max)
     elif request.method == 'POST':
         c_name = request.form.get('name') 
@@ -79,7 +87,6 @@ def search():
         SEARCH_PARAM.append(c_location)
         SEARCH_PARAM.append(c_user)
         SEARCH_PARAM.append(c_is_active)
-        print(c_name)
               
         computers = Computer.query.filter(Computer.name.contains(c_name), Computer.model.contains(c_model), Computer.location.contains(c_location), Computer.user_name.contains(c_user), Computer.is_active.contains(c_is_active)).all()
         if computers and len(computers) > 0:
@@ -105,11 +112,14 @@ def turn(page):
         page = int(page)
         if page < 1:
             page = 1
+        
         if len(SEARCH_PARAM) == 5:
             computers = Computer.query.filter(Computer.name.contains(SEARCH_PARAM[0]), Computer.model.contains(SEARCH_PARAM[1]), Computer.location.contains(SEARCH_PARAM[2]), Computer.user_name.contains(SEARCH_PARAM[3]), Computer.is_active.contains(SEARCH_PARAM[4])).all()
+        
         else:
             computers = Computer.query.filter(Computer.name.contains('')).all()
-            
+        computers = selectionSort(computers)
+        
 
         models = get_models(computers) 
         users = get_user_names(computers)
@@ -136,7 +146,6 @@ def turn(page):
         else:
             table_computers = get_ten(computers, page)
         
-                
         return render_template("search.html", user = current_user, filtered = (len(SEARCH_PARAM) > 0), models = models, filter = SEARCH_PARAM, users = users, locations = locations, table_computers = table_computers, page = page, max = max, max_array = max_array)
     elif request.method == 'POST':
         c_name = request.form.get('name') 
@@ -164,7 +173,7 @@ def turn(page):
             for i in range(1, max + 1):
                 max_array.append(i)  
                 
-            return render_template("search.html", filtered = (len(SEARCH_PARAM) > 0), user = current_user, models = models, filter = SEARCH_PARAM, users = users, locations = locations, table_computers = table_computers, page = 1, max = max, max_array = max_array)
+            return render_template("search.html", filtered = (len(SEARCH_PARAM) > 0), user = current_user, models = models, filter = SEARCH_PARAM, users = users, locations = locations, table_computers = table_computers, page = page, max = max, max_array = max_array)
 
 
 @search_page.route('/computer_edit/<serial>', methods=['GET', 'POST'])
@@ -209,12 +218,16 @@ def computer_edit(serial):
                 db.session.flush()
                 db.session.commit()
                 
-                computers = Computer.query.filter(Computer.name.contains('')).all()
+                if len(SEARCH_PARAM) == 5:
+                    computers = Computer.query.filter(Computer.name.contains(SEARCH_PARAM[0]), Computer.model.contains(SEARCH_PARAM[1]), Computer.location.contains(SEARCH_PARAM[2]), Computer.user_name.contains(SEARCH_PARAM[3]), Computer.is_active.contains(SEARCH_PARAM[4])).all()
+                computers = selectionSort(computers)
+    
                 models = get_models(computers)
                 users = get_user_names(computers)
                 locations = get_locations(computers)
                 table_computers = get_ten(computers, 1)
-                max = get_max_pages(computers)    
+                max = get_max_pages(computers)  
+                
                 max_array = []
                 for i in range(1, max + 1):
                     max_array.append(i)  
