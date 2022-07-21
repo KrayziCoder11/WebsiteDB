@@ -1,6 +1,9 @@
 add 2 stage authentication
 
-add drop down for true/false on home screen for computer activity
+connect to server
+    -check if works with css files
+        - create css files to use
+
         
 if you are the only admin, have the admins page state that under current admins
         

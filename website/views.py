@@ -18,6 +18,8 @@ def home():
         c_num = request.form.get('serial')
         c_location = request.form.get('location')
         c_model = request.form.get('model')
+        c_activity = request.form.get('activity')
+        
 
         if len(c_name) < 1:
             flash('The name is too short!', category='error')
@@ -27,8 +29,12 @@ def home():
             flash('Invalid Model!', category='error')
         elif not (c_num.isdigit()):
             flash('Serial Number can only have numbers!', category='error')
+        elif (c_activity == ""):
+            flash('Please select whether the computer is actively being used or not')
+        elif (c_model == ""):
+            flash('Please select the Computer Model')
         else:
-            new_comp = Computer(name=c_name, serial = c_num, location = c_location, model = c_model, user_name = current_user.name)
+            new_comp = Computer(name=c_name, serial = c_num, location = c_location, model = c_model, user_name = current_user.name, is_active = c_activity)
             db.session.add(new_comp)
             db.session.commit()
             flash('Computer added!', category='success')

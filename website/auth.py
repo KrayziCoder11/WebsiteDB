@@ -8,7 +8,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 auth = Blueprint('auth', __name__)
 
 
-@auth.route('/login', methods=['GET', 'POST'])
+@auth.route('sro.tdgsupport.com/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         admin = User.query.filter_by(is_admin=True).first()
@@ -35,7 +35,7 @@ def login():
         else:
             flash('Email does not exist.', category='error')
 
-    return render_template("login.html", user=current_user)
+    return render_template("index.html", user=current_user)
 
 
 @auth.route('/logout')
