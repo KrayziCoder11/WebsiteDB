@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from sqlalchemy import true
-from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
+from .models import Computer, User
+from .logic import *
 
 auth = Blueprint('auth', __name__)
-
+SEARCH_PARAM = []
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -19,7 +19,7 @@ def login():
             db.session.add(new_admin)
             db.session.commit()
 
-    if request.method == 'POST':
+    elif request.method == 'POST':
     
         email = request.form.get('email')
         password = request.form.get('password')
@@ -82,3 +82,4 @@ def sign_up_confirm(check, email, name, password):
         flash('Returning to Sign up page!', category='success')
         return redirect(url_for('auth.sign_up'))
         
+

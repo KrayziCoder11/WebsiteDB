@@ -32,15 +32,11 @@
   <a href="/login">
       <input type = "button" value = "login2" class="btn btn-primary">
   </a>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-  
   <script>
     function loginAttempt(){
-     $.ajax({
+      $.ajax({
         url: "main.py",
         context: document.body
-      });
-
 
       $.ajax({
         url: "/login",
